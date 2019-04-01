@@ -29,15 +29,15 @@ import java.util.List;
 
 public class AddEditActivity extends AppCompatActivity  {
     public static final String EXTRA_ID =
-            "com.codinginflow.architectureexample.EXTRA_ID";
+            "com.example.gamebacklog.EXTRA_ID";
     public static final String EXTRA_TITLE =
-            "com.codinginflow.architectureexample.EXTRA_TITLE";
+            "com.example.gamebacklogEXTRA_TITLE";
     public static final String EXTRA_PLATFORM =
-            "com.codinginflow.architectureexample.EXTRA_EXTRA_PLATFORM";
+            "com.example.gamebacklog.EXTRA_PLATFORM";
     public static final String EXTRA_STATUS =
-            "com.codinginflow.architectureexample.EXTRA_STATUS";
+            "com.example.gamebacklog.EXTRA_STATUS";
     public static final String EXTRA_DATE =
-            "com.codinginflow.architectureexample.EXTRA_DATE";
+            "com.example.gamebacklog.EXTRA_DATE";
 
 
     //instance variables
@@ -67,11 +67,15 @@ public class AddEditActivity extends AppCompatActivity  {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
+//        GameBacklog gameBacklog = getIntent().getParcelableExtra(MainActivity.EXTRA_GAMEBACKLOG);
+        String title = getIntent().getStringExtra(EXTRA_TITLE);
+        Toast.makeText(getApplicationContext(), title, Toast.LENGTH_SHORT).show();
         if (intent.hasExtra(EXTRA_ID)) {
             setTitle("Edit Game");
+
             mGameTitle.setText(intent.getStringExtra(EXTRA_TITLE));
-            mGamePlatform.setText(intent.getStringExtra(EXTRA_PLATFORM));
-//            mGameStatus.setAdapter(intent.getIntExtra(EXTRA_STATUS, 1));
+////            mGamePlatform.setText(intent.getStringExtra(EXTRA_PLATFORM));
+////            mGameStatus.setAdapter(intent.getIntExtra(EXTRA_STATUS, 1));
         } else {
             setTitle("Create Game");
         }

@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -20,18 +19,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.gamebacklog.R;
-import com.example.gamebacklog.database.GameBacklogRoomDatabase;
 import com.example.gamebacklog.model.GameBacklog;
 import com.example.gamebacklog.model.GameBacklogAdapter;
 import com.example.gamebacklog.model.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 
-public class MainActivity extends AppCompatActivity implements RecyclerView.OnItemTouchListener {
+public class MainActivity extends AppCompatActivity implements GameBacklogAdapter.OnItemClickListener{
 
     //instance variables
     public static final int ADD_LOG_REQUEST = 1;
@@ -78,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
 //        mRecyclerView.setBackgroundColor(ContextCompat.getColor(this, R.color.design_default_color_primary_dark));
 
 
-
         mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
@@ -108,6 +103,23 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
                 Toast.makeText(MainActivity.this, "GameBacklog deleted", Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(mRecyclerView);
+    }
+//        mAdapter.setOnItemClickListener(new GameBacklogAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(GameBacklog gameBacklog) {
+//                Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
+//
+//                intent.putExtra(AddEditActivity.EXTRA_ID, gameBacklog.getId());
+//                intent.putExtra(AddEditActivity.EXTRA_TITLE, gameBacklog.getTitle());
+//                intent.putExtra(AddEditActivity.EXTRA_PLATFORM, gameBacklog.getPlatform());
+//                intent.putExtra(AddEditActivity.EXTRA_STATUS, gameBacklog.getStatus());
+//
+//                intent.putExtra(AddEditActivity.EXTRA_DATE, gameBacklog.getDate());
+//
+//                startActivityForResult(intent, EDIT_LOG_REQUEST);
+//            }
+//
+//        });
 
 //        mAdapter.setOnItemClickListener(new GameBacklogAdapter.OnItemClickListener()  {
 //            @Override
@@ -149,14 +161,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
 //        itemTouchHelper.attachToRecyclerView(mRecyclerView);
 //        mRecyclerView.addOnItemTouchListener(this);
 //		getAllReminders();
-    }
+
 
     private void updateUI() {
         if (mAdapter == null) {
-            mAdapter = new GameBacklogAdapter(mGameBacklogs);
+            mAdapter = new GameBacklogAdapter(mGameBacklogs, this);
             mRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.swapList(mGameBacklogs);
+           //dataset changed
         }
     }
 
@@ -179,31 +192,40 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-        View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
-        if (child != null) {
-            int mAdapterPosition = recyclerView.getChildAdapterPosition(child);
-            if (mGestureDetector.onTouchEvent(motionEvent)) {
-                Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
-                mModifyPosition = mAdapterPosition;
-                intent.putExtra(EXTRA_GAMEBACKLOG, mGameBacklogs.get(mAdapterPosition));
-                startActivityForResult(intent, REQUESTCODE);
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-
-    }
-
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
-    }
+//
+//    @Override
+//    public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+//        View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+//        if (child != null) {
+//            int mAdapterPosition = recyclerView.getChildAdapterPosition(child);
+//            if (mGestureDetector.onTouchEvent(motionEvent)) {
+//                Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
+//                mModifyPosition = mAdapterPosition;
+//                GameBacklog gameBacklog = mGameBacklogs.get(mModifyPosition);
+//                intent.putExtra(AddEditActivity.EXTRA_ID, gameBacklog.getId());
+//                intent.putExtra(AddEditActivity.EXTRA_TITLE, gameBacklog.getTitle());
+//                intent.putExtra(AddEditActivity.EXTRA_PLATFORM, gameBacklog.getPlatform());
+//                intent.putExtra(AddEditActivity.EXTRA_STATUS, gameBacklog.getStatus());
+////////                    context.startActivityForResult(intent, MainActivity.EDIT_LOG_REQUEST);
+//                intent.putExtra(EXTRA_GAMEBACKLOG, gameBacklog);
+//                startActivityForResult(intent, MainActivity.EDIT_LOG_REQUEST);
+//
+//
+////                /startActivityForResult(intent,/ EDIT_LOG_REQUEST);
+//            }
+//        }
+//        return false;
+//    }
+//
+//    @Override
+//    public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
+//
+//    }
+//
+//    @Override
+//    public void onRequestDisallowInterceptTouchEvent(boolean b) {
+//
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -242,4 +264,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerView.OnIt
         }
     }
 
+    @Override
+    public void onItemClick(int position) {
+        GameBacklog gameBacklog = mGameBacklogs.get(position);
+        Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
+//                intent.putExtra(AddEditActivity.EXTRA_ID, gameBacklog.getId());
+//                intent.putExtra(AddEditActivity.EXTRA_TITLE, gameBacklog.getTitle());
+//                intent.putExtra(AddEditActivity.EXTRA_PLATFORM, gameBacklog.getPlatform());
+//                intent.putExtra(AddEditActivity.EXTRA_STATUS, gameBacklog.getStatus());
+                startActivityForResult(intent, EDIT_LOG_REQUEST);
+
+
+    }
 }

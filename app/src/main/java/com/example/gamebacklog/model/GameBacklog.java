@@ -11,7 +11,7 @@ import java.util.Date;
 public class GameBacklog implements Parcelable{
 
     @PrimaryKey(autoGenerate = true)
-    int id;
+    long id;
     public String title;
     public String platform;
     public String status;
@@ -36,7 +36,7 @@ public class GameBacklog implements Parcelable{
     }
 
     protected GameBacklog(Parcel in) {
-        id = in.readInt();
+        id = in.readLong();
         title = in.readString();
         platform = in.readString();
         status = in.readString();
@@ -55,11 +55,11 @@ public class GameBacklog implements Parcelable{
         }
     };
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -102,7 +102,7 @@ public class GameBacklog implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeLong(id);
         dest.writeString(title);
         dest.writeString(platform);
         dest.writeString(status);

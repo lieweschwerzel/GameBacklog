@@ -12,12 +12,15 @@ import com.example.gamebacklog.R;
 
 import java.util.List;
 
+
 public class GameBacklogAdapter extends RecyclerView.Adapter<GameBacklogAdapter.ViewHolder> {
 
     private List<GameBacklog> mGameBacklogs;
+    final private OnItemClickListener mItemClickListener;
 
-    public GameBacklogAdapter(List<GameBacklog> mGameBacklogs) {
+    public GameBacklogAdapter(List<GameBacklog> mGameBacklogs, OnItemClickListener mItemClickListener) {
         this.mGameBacklogs = mGameBacklogs;
+        this.mItemClickListener = mItemClickListener;
     }
 
     @NonNull
@@ -59,7 +62,7 @@ public class GameBacklogAdapter extends RecyclerView.Adapter<GameBacklogAdapter.
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView titleView;
         TextView platformView;
         TextView statusView;
@@ -70,9 +73,25 @@ public class GameBacklogAdapter extends RecyclerView.Adapter<GameBacklogAdapter.
             titleView = itemView.findViewById(R.id.text_view_title);
             platformView = itemView.findViewById(R.id.text_view_platform);
             statusView = itemView.findViewById(R.id.text_view_status);
-            dateView= itemView.findViewById(R.id.text_view_datum);
+            dateView = itemView.findViewById(R.id.text_view_datum);
+            itemView.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View v) {
+//            if (mItemClickListener != null) {
+//                mItemClickListener.onItemClick(v, getPosition());
+//            }
+            int position = getAdapterPosition();
+            mItemClickListener.onItemClick(position);
+
 
         }
+
     }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
 
 }
