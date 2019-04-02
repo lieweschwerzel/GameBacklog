@@ -39,19 +39,19 @@
             android:layout_width="79dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_title"
-            android:layout_marginStart="70dp"
-            android:layout_marginTop="1dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="2dp"
             android:layout_toEndOf="@+id/text_view_platform"
             android:text="Status"
             android:textAlignment="textStart" />
 
         <TextView
             android:id="@+id/text_view_datum"
-            android:layout_width="113dp"
+            android:layout_width="138dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_title"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="42dp"
+            android:layout_marginStart="29dp"
             android:layout_marginTop="1dp"
             android:layout_marginEnd="2dp"
             android:layout_toEndOf="@+id/text_view_status"

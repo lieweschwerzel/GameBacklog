@@ -8,6 +8,7 @@
     <string name="priority">Priority:</string>
     <string name="country_prompt">Choose a country</string>
     <string name="platform">Platform</string>
+    <string name="status">Status</string>
 
     <string-array name="status_arrays">
         <item>Want to Play</item>

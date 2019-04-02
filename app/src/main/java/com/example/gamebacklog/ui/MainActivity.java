@@ -27,7 +27,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements GameBacklogAdapter.OnItemClickListener {
     //instance variables
-
     private List<GameBacklog> mGameBacklogs;
     private GameBacklogAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
                 startActivity(intent);
             }
         });
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
     @Override
     public void onItemClick(int position) {
         GameBacklog gameBacklog = mGameBacklogs.get(position);
-        Intent intent = new Intent(MainActivity.this, EditActivity.class);
+        Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
         intent.putExtra(MainActivity.EXTRA_GAMEBACKLOG, gameBacklog);
         startActivity(intent);
     }

@@ -9,7 +9,7 @@ import com.example.gamebacklog.model.GameBacklog;
 
 @Database(entities = {GameBacklog.class}, version = 1, exportSchema = false)
 public abstract class GameBacklogRoomDatabase extends RoomDatabase {
-	private final static String NAME_DATABASE = "gaol5efban_database";
+	private final static String NAME_DATABASE = "gbl_database";
 
 	public abstract GameBacklogDao gameBacklogDao();
 
