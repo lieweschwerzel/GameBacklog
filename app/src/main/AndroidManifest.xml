@@ -15,14 +15,17 @@
                 android:theme="@style/AppTheme.NoActionBar">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
-
                     <category android:name="android.intent.category.LAUNCHER" />
                 </intent-filter>
             </activity>
             <activity
-                android:name=".ui.AddEditActivity"
+                android:name=".ui.AddActivity"
                 android:theme="@style/AppTheme.NoActionBar"
-                android:parentActivityName=".ui.AddEditActivity" />
+                android:parentActivityName=".ui.MainActivity" />
+            <activity
+                android:name=".ui.EditActivity"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:parentActivityName=".ui.MainActivity" />
         </application>
 
     </manifest>

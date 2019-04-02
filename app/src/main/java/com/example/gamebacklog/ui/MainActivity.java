@@ -27,11 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements GameBacklogAdapter.OnItemClickListener{
+public class MainActivity extends AppCompatActivity implements GameBacklogAdapter.OnItemClickListener {
 
     //instance variables
-    public static final int ADD_LOG_REQUEST = 1;
-    public static final int EDIT_LOG_REQUEST = 2;
+    public static final int EDIT_REQUEST = 252;
     private List<GameBacklog> mGameBacklogs;
     private GameBacklogAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -85,8 +84,9 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
-                startActivityForResult(intent, ADD_LOG_REQUEST);
+                Intent intent = new Intent(MainActivity.this, AddActivity.class);
+//                startActivityForResult(intent, ADD_LOG_REQUEST);
+                startActivity(intent);
             }
         });
 
@@ -133,11 +133,11 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
 //            }
 //        });
 
-        /*
-         * Add a touch helper to the RecyclerView to recognize when a user swipes to delete a list entry.
-         * An ItemTouchHelper enables touch behavior (like swipe and move) on each ViewHolder,
-         * and uses callbacks to signal when a user is performing these actions.
-         */
+    /*
+     * Add a touch helper to the RecyclerView to recognize when a user swipes to delete a list entry.
+     * An ItemTouchHelper enables touch behavior (like swipe and move) on each ViewHolder,
+     * and uses callbacks to signal when a user is performing these actions.
+     */
 //        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
 //                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 //                    @Override
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
             mRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.swapList(mGameBacklogs);
-           //dataset changed
+            //dataset changed
         }
     }
 
@@ -226,54 +226,29 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
 //    public void onRequestDisallowInterceptTouchEvent(boolean b) {
 //
 //    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == ADD_LOG_REQUEST && resultCode == RESULT_OK) {
-            String title = data.getStringExtra(AddEditActivity.EXTRA_TITLE);
-            String platform = data.getStringExtra(AddEditActivity.EXTRA_PLATFORM);
-            String status = data.getStringExtra(AddEditActivity.EXTRA_STATUS);
-            String date = data.getStringExtra(AddEditActivity.EXTRA_DATE);
-
-            GameBacklog gameBacklog = new GameBacklog(title, platform, status, date);
-            mMainViewModel.insert(gameBacklog);
-
-            Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
-        } else if (requestCode == EDIT_LOG_REQUEST && resultCode == RESULT_OK) {
-            int id = data.getIntExtra(AddEditActivity.EXTRA_ID, -1);
-
-            if (id == -1) {
-                Toast.makeText(this, "Note can't be updated", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            String title = data.getStringExtra(AddEditActivity.EXTRA_TITLE);
-            String platform = data.getStringExtra(AddEditActivity.EXTRA_PLATFORM);
-            String status = data.getStringExtra(AddEditActivity.EXTRA_STATUS);
-            String date = data.getStringExtra(AddEditActivity.EXTRA_DATE);
-
-            GameBacklog gameBacklog = new GameBacklog(title, platform, status, date);
-            gameBacklog.setId(id);
-            mMainViewModel.update(gameBacklog);
-
-            Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Note not saved", Toast.LENGTH_SHORT).show();
-        }
-    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        Intent intent = getIntent();//
+//        GameBacklog gameBacklog = intent.getParcelableExtra(MainActivity.EXTRA_GAMEBACKLOG);
+////        int id = gameBacklog.getId();
+//////        gameBacklog.setId(id);
+//        if (requestCode == EDIT_REQUEST && resultCode == RESULT_OK) {
+//            mMainViewModel.update(gameBacklog);
+//            Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(this, "Note not saved", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     @Override
     public void onItemClick(int position) {
         GameBacklog gameBacklog = mGameBacklogs.get(position);
-        Intent intent = new Intent(MainActivity.this, AddEditActivity.class);
-//                intent.putExtra(AddEditActivity.EXTRA_ID, gameBacklog.getId());
-//                intent.putExtra(AddEditActivity.EXTRA_TITLE, gameBacklog.getTitle());
-//                intent.putExtra(AddEditActivity.EXTRA_PLATFORM, gameBacklog.getPlatform());
-//                intent.putExtra(AddEditActivity.EXTRA_STATUS, gameBacklog.getStatus());
-                startActivityForResult(intent, EDIT_LOG_REQUEST);
+//        Toast.makeText(this,gameBacklog.getTitle(), Toast.LENGTH_LONG).show();
 
-
+        Intent intent = new Intent(MainActivity.this, EditActivity.class);
+        intent.putExtra(MainActivity.EXTRA_GAMEBACKLOG, gameBacklog);
+        startActivityForResult(intent, EDIT_REQUEST);
     }
 }

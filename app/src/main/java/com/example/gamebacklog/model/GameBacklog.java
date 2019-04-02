@@ -5,13 +5,11 @@ import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 @Entity(tableName = "gamebacklog")
-public class GameBacklog implements Parcelable{
+public class GameBacklog implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
-    long id;
+    int id;
     public String title;
     public String platform;
     public String status;
@@ -36,7 +34,7 @@ public class GameBacklog implements Parcelable{
     }
 
     protected GameBacklog(Parcel in) {
-        id = in.readLong();
+        id = in.readInt();
         title = in.readString();
         platform = in.readString();
         status = in.readString();
@@ -55,11 +53,11 @@ public class GameBacklog implements Parcelable{
         }
     };
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -102,7 +100,7 @@ public class GameBacklog implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
+        dest.writeInt(id);
         dest.writeString(title);
         dest.writeString(platform);
         dest.writeString(status);
