@@ -41,7 +41,6 @@ public class GameBacklogAdapter extends RecyclerView.Adapter<GameBacklogAdapter.
         viewHolder.platformView.setText(gameBacklog.getPlatform());
         viewHolder.statusView.setText(gameBacklog.getStatus());
         viewHolder.dateView.setText(gameBacklog.getDate());
-
     }
 
     public GameBacklog getNoteAt(int position) {
@@ -61,7 +60,6 @@ public class GameBacklogAdapter extends RecyclerView.Adapter<GameBacklogAdapter.
         }
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView titleView;
         TextView platformView;
@@ -78,13 +76,8 @@ public class GameBacklogAdapter extends RecyclerView.Adapter<GameBacklogAdapter.
         }
         @Override
         public void onClick(View v) {
-//            if (mItemClickListener != null) {
-//                mItemClickListener.onItemClick(v, getPosition());
-//            }
             int position = getAdapterPosition();
             mItemClickListener.onItemClick(position);
-
-
         }
 
     }

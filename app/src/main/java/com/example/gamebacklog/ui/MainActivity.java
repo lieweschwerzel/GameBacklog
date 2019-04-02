@@ -3,9 +3,12 @@ package com.example.gamebacklog.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,9 +76,30 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                mMainViewModel.delete(mAdapter.getNoteAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(MainActivity.this, "GameBacklog deleted", Toast.LENGTH_SHORT).show();
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
+                // hold position in view item
+                final int pos = viewHolder.getAdapterPosition();
+                View parentLayout = findViewById(android.R.id.content);
+                parentLayout.setTag(pos);
+                final GameBacklog tmpDeletedGameBacklog = mGameBacklogs.get(pos);
+
+                mMainViewModel.delete(mAdapter.getNoteAt(pos));
+                Snackbar.make(parentLayout, "Deleted: " + tmpDeletedGameBacklog.getTitle(), Snackbar.LENGTH_LONG)
+                        .setActionTextColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryLightBlue))
+                        .setCallback(new Snackbar.Callback() {
+                            @Override
+                            public void onDismissed(Snackbar snackbar, int event) {
+                            }
+                        })
+                        .setAction("UNDO", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mMainViewModel.insert(tmpDeletedGameBacklog);
+                            }
+                        })
+                        .show();
+                mAdapter.notifyItemRangeChanged(pos, mAdapter.getItemCount());
+
             }
         }).attachToRecyclerView(mRecyclerView);
     }
@@ -86,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
             mRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.swapList(mGameBacklogs);
-            //dataset changed
         }
     }
 
@@ -100,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_remove) {
             deleteAll();
             return true;
@@ -109,9 +131,31 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
     }
 
     public void deleteAll() {
-        for (GameBacklog log : mGameBacklogs) {
-            mMainViewModel.delete(log);
+        final List<GameBacklog> allDeletedGameBacklogs;
+        allDeletedGameBacklogs = new ArrayList<>();
+        View parentLayout = findViewById(android.R.id.content);
+
+        for (GameBacklog backlog : mGameBacklogs) {
+            mMainViewModel.delete(backlog);
+            allDeletedGameBacklogs.add(backlog);
         }
+        Snackbar.make(parentLayout, "All games deleted", Snackbar.LENGTH_LONG)
+                .setActionTextColor(ContextCompat.getColor(MainActivity.this, R.color.colorPrimaryLightBlue))
+                .setCallback(new Snackbar.Callback() {
+                    @Override
+                    public void onDismissed(Snackbar snackbar, int event) {
+                    }
+                })
+                .setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        for (int pos = 0; pos < allDeletedGameBacklogs.size(); pos++){
+                            GameBacklog tmpGameBacklog = allDeletedGameBacklogs.get(pos);
+                            mMainViewModel.insert(tmpGameBacklog);
+                        }
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -121,4 +165,6 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
         intent.putExtra(MainActivity.EXTRA_GAMEBACKLOG, gameBacklog);
         startActivity(intent);
     }
+
+
 }

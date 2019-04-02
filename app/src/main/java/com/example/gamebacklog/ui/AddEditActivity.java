@@ -94,7 +94,7 @@ public class AddEditActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 } else
-                    Snackbar.make(view, "Please insert a title and platform", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    Snackbar.make(view, "Please insert a title, platform and select a status", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
     }
