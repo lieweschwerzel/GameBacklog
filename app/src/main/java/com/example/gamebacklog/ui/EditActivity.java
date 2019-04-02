@@ -55,6 +55,7 @@ public class EditActivity extends AppCompatActivity {
         final GameBacklog gameBacklog = intent.getParcelableExtra(MainActivity.EXTRA_GAMEBACKLOG);
         mGameTitle.setText(gameBacklog.getTitle());
         mGamePlatform.setText(gameBacklog.getPlatform());
+        mGameStatus.setSelection(dataAdapter.getPosition(gameBacklog.getStatus()));
 
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 

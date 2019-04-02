@@ -45,7 +45,7 @@ public class AddActivity extends AppCompatActivity {
         mGamePlatform = findViewById(R.id.editPlatform_addedit);
         mGameStatus = findViewById(R.id.editStatus_addedit);
         mGameBacklogs = new ArrayList<>();
-        addItemsOnSpinner2();
+        addItemsOnSpinner();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -79,7 +79,7 @@ public class AddActivity extends AppCompatActivity {
     }
 
     // add items into spinner dynamically
-    public void addItemsOnSpinner2() {
+    public void addItemsOnSpinner() {
 
         mGameStatus = (Spinner) findViewById(R.id.editStatus_addedit);
         List<String> list = new ArrayList<String>();
