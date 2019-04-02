@@ -55,7 +55,7 @@ public class EditActivity extends AppCompatActivity {
         final GameBacklog gameBacklog = intent.getParcelableExtra(MainActivity.EXTRA_GAMEBACKLOG);
         mGameTitle.setText(gameBacklog.getTitle());
         mGamePlatform.setText(gameBacklog.getPlatform());
-        mGameStatus.setSelection(dataAdapter.getPosition(gameBacklog.getStatus()));
+//        mGameStatus.setSelection(dataAdapter.getPosition(gameBacklog.getStatus()));
 
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
@@ -72,7 +72,7 @@ public class EditActivity extends AppCompatActivity {
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 String date = dateFormat.format(tempdate);
                 //Check if some text has been added
-                if (!(TextUtils.isEmpty(title)) && !(TextUtils.isEmpty(platform))) {
+                if (!(TextUtils.isEmpty(title.trim())) && !(TextUtils.isEmpty(platform.trim()))) {
                     GameBacklog editGameBacklog = new GameBacklog(title, platform, status, date);
                     int id = gameBacklog.getId();
                     editGameBacklog.setId(id);
@@ -89,6 +89,7 @@ public class EditActivity extends AppCompatActivity {
     public void addItemsOnSpinner() {
         mGameStatus = (Spinner) findViewById(R.id.editStatus_addedit);
         List<String> list = new ArrayList<String>();
+//        list.add(" ");
         list.add("Want to Play");
         list.add("Playing");
         list.add("Stalled");

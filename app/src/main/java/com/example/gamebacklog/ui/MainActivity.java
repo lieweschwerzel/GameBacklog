@@ -11,10 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,34 +26,25 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements GameBacklogAdapter.OnItemClickListener {
-
     //instance variables
-    public static final int EDIT_REQUEST = 252;
+
     private List<GameBacklog> mGameBacklogs;
     private GameBacklogAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private MainViewModel mMainViewModel;
 
-//    private GestureDetector mGestureDetector;
-    //Constants used when calling the update activity
     public static final String EXTRA_GAMEBACKLOG = "Gamebacklog";
-    public static final int REQUESTCODE = 1234;
-    private int mModifyPosition;
-
-//    private GameBacklogRoomDatabase db;
-//    private Executor executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        db = GameBacklogRoomDatabase.getDatabase(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         //Initialize the instance variables
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         mGameBacklogs = new ArrayList<>();
 
@@ -68,24 +57,11 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
             }
         });
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-//        mRecyclerView.setBackgroundColor(ContextCompat.getColor(this, R.color.design_default_color_primary_dark));
-
-//
-//        mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-//            @Override
-//            public boolean onSingleTapUp(MotionEvent e) {
-//                return true;
-//            }
-//        });
-
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddActivity.class);
-//                startActivityForResult(intent, ADD_LOG_REQUEST);
                 startActivity(intent);
             }
         });
@@ -124,9 +100,6 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_remove) {
@@ -137,20 +110,16 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
     }
 
     public void deleteAll() {
-        for (int i = 0; i<mGameBacklogs.size(); i++ ){
-            GameBacklog deleteGameBacklog = mGameBacklogs.get(i);
-            mMainViewModel.delete(deleteGameBacklog);
+        for (GameBacklog log : mGameBacklogs) {
+            mMainViewModel.delete(log);
         }
     }
-
 
     @Override
     public void onItemClick(int position) {
         GameBacklog gameBacklog = mGameBacklogs.get(position);
-//        Toast.makeText(this,gameBacklog.getTitle(), Toast.LENGTH_LONG).show();
-
         Intent intent = new Intent(MainActivity.this, EditActivity.class);
         intent.putExtra(MainActivity.EXTRA_GAMEBACKLOG, gameBacklog);
-        startActivityForResult(intent, EDIT_REQUEST);
+        startActivity(intent);
     }
 }

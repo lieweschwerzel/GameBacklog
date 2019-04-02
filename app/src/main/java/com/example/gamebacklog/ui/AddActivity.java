@@ -66,7 +66,7 @@ public class AddActivity extends AppCompatActivity {
                 DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 String date = dateFormat.format(tempdate);
                 //Check if some text has been added
-                if (!(TextUtils.isEmpty(title)) && !(TextUtils.isEmpty(platform))) {
+                if (!(TextUtils.isEmpty(title.trim())) && !(TextUtils.isEmpty(platform.trim()))) {
                     GameBacklog newGameBacklog = new GameBacklog(title, platform, status, date);
                     mMainViewModel.insert(newGameBacklog);
                     Intent intent = new Intent(AddActivity.this, MainActivity.class);
