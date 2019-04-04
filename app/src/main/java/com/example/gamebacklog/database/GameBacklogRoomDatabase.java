@@ -9,24 +9,24 @@ import com.example.gamebacklog.model.GameBacklog;
 
 @Database(entities = {GameBacklog.class}, version = 1, exportSchema = false)
 public abstract class GameBacklogRoomDatabase extends RoomDatabase {
-	private final static String NAME_DATABASE = "gbl_database";
+    private final static String NAME_DATABASE = "gbl_database";
 
-	public abstract GameBacklogDao gameBacklogDao();
+    public abstract GameBacklogDao gameBacklogDao();
 
-	private static volatile GameBacklogRoomDatabase INSTANCE;
+    private static volatile GameBacklogRoomDatabase INSTANCE;
 
-	public static GameBacklogRoomDatabase getDatabase(final Context context) {
-		if (INSTANCE == null) {
-			synchronized (GameBacklogRoomDatabase.class) {
-				if (INSTANCE == null) {
-					// Create database here
-					INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-							GameBacklogRoomDatabase.class, NAME_DATABASE)
-							.build();
-				}
-			}
-		}
-		return INSTANCE;
-	}
+    public static GameBacklogRoomDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
+            synchronized (GameBacklogRoomDatabase.class) {
+                if (INSTANCE == null) {
+                    // Create database here
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                            GameBacklogRoomDatabase.class, NAME_DATABASE)
+                            .build();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 
 }

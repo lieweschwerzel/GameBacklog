@@ -11,12 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.gamebacklog.R;
 import com.example.gamebacklog.model.GameBacklog;
@@ -63,7 +61,7 @@ public class AddEditActivity extends AppCompatActivity {
             mGamePlatform.setText(tmpGameBacklog.getPlatform());
             //Spinner instellen, krijg positie van status in de lijst met spinner elementen
             String tmpstatus = tmpGameBacklog.getStatus();
-            mGameStatus.setSelection(Integer.valueOf(getmGameStatusPos(tmpstatus)));
+            mGameStatus.setSelection(getmGameStatusPos(tmpstatus));
         } else
             setTitle("Create Game");
 
@@ -78,7 +76,7 @@ public class AddEditActivity extends AppCompatActivity {
                 String status = mGameStatus.getSelectedItem().toString();
                 String date = getDate();
 
-                //Check if some text has been added
+                //Check if everything has been added
                 if (!(TextUtils.isEmpty(title.trim())) && !(TextUtils.isEmpty(platform.trim())) && status != "Select a status...") {
                     if (tmpGameBacklog != null) {
                         GameBacklog editGameBacklog = new GameBacklog(title, platform, status, date);
@@ -98,6 +96,7 @@ public class AddEditActivity extends AppCompatActivity {
             }
         });
     }
+
     // add items into spinner dynamically
     public void addItemsOnSpinner() {
         mGameStatus = (Spinner) findViewById(R.id.editStatus_addedit);
@@ -108,31 +107,28 @@ public class AddEditActivity extends AppCompatActivity {
         list.add("Stalled");
         list.add("Dropped");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, list){
-            //grijs maken van de voorselectie op die spinner nadat erop is geklikt
+                android.R.layout.simple_spinner_item, list) {
+            //grijs maken van de voorselectie op de spinner nadat erop is geklikt
             @Override
-            public boolean isEnabled(int position){
-                if(position == 0)
-                {
+            public boolean isEnabled(int position) {
+                if (position == 0) {
                     // Disable the first item from Spinner
                     // First item will be use for hint
                     return false;
-                }
-                else
-                {
+                } else {
                     return true;
                 }
             }
+
             @Override
             public View getDropDownView(int position, View convertView,
                                         ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
                 TextView tv = (TextView) view;
-                if(position == 0){
+                if (position == 0) {
                     // Set the hint text color gray
                     tv.setTextColor(Color.GRAY);
-                }
-                else {
+                } else {
                     tv.setTextColor(Color.BLACK);
                 }
                 return view;
@@ -154,7 +150,7 @@ public class AddEditActivity extends AppCompatActivity {
         return list.indexOf(status);
     }
 
-    //get date and format it
+    //get date in correct format
     public String getDate() {
         Calendar cal = Calendar.getInstance();
         Date tempdate = cal.getTime();

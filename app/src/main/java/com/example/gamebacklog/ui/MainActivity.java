@@ -3,7 +3,6 @@ package com.example.gamebacklog.ui;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +16,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.gamebacklog.R;
 import com.example.gamebacklog.model.GameBacklog;
@@ -80,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
                 // hold position in view item
                 final int pos = viewHolder.getAdapterPosition();
                 View parentLayout = findViewById(android.R.id.content);
-                parentLayout.setTag(pos);
                 final GameBacklog tmpDeletedGameBacklog = mGameBacklogs.get(pos);
 
                 mMainViewModel.delete(mAdapter.getNoteAt(pos));
@@ -149,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements GameBacklogAdapte
                 .setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        for (int pos = 0; pos < allDeletedGameBacklogs.size(); pos++){
+                        for (int pos = 0; pos < allDeletedGameBacklogs.size(); pos++) {
                             GameBacklog tmpGameBacklog = allDeletedGameBacklogs.get(pos);
                             mMainViewModel.insert(tmpGameBacklog);
                         }

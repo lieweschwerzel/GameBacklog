@@ -5,9 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
-import com.example.gamebacklog.model.GameBacklog;
 import com.example.gamebacklog.database.GameBacklogRepository;
-
 
 import java.util.List;
 

@@ -22,7 +22,8 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/text_view_platform"
